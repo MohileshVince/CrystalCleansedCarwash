@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviews - Crystal Cleansed Carwash</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff0000;
+            --secondary-color: #982222;
+        }
+        .reviews-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .review-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+            transition: transform 0.3s;
+            overflow: hidden;
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .review-header {
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #eee;
+        }
+
+        .review-content {
+            padding: 20px;
+        }
+
+        .review-footer {
+            padding: 10px 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #eee;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .stars {
+            color: #ffc107;
+            font-size: 20px;
+            margin-right: 10px;
+        }
+
+        .star-filled::before {
+            content: "★";
+        }
+
+        .star-empty::before {
+            content: "☆";
+        }
+
+        .review-form-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+
+        .star-rating {
+            direction: rtl;
+            display: inline-block;
+        }
+
+        .star-rating > input {
+            display: none;
+        }
+
+        .star-rating > label {
+            color: #ddd;
+            font-size: 30px;
+            padding: 0 5px;
+            cursor: pointer;
+        }
+
+        .star-rating > input:checked ~ label,
+        .star-rating > input:hover ~ label {
+            color: #ffc107;
+        }
+
+        .verified-badge {
+            background: #28a745;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+
+        .filter-container {
+            margin-bottom: 30px;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .review-form-container {
+                padding: 20px;
+            }
+        }
+        footer {
+            background-color: #ff0000;
+            color: white;
+            padding: 20px 0;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Crystal Cleansed Carwash</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="services.html">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="booking.html">Book Now</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="experts.html">Our Experts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="location.html">Location</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="reviews.html">Reviews</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container py-5">
+        <div class="reviews-container">
+            <h1 class="text-center mb-5">Customer Reviews</h1>
+
+            <!-- Review Form -->
+            <div class="review-form-container">
+                <h3 class="mb-4">Write a Review</h3>
+                <form id="reviewForm" onsubmit="return handleReviewSubmit(event)">
+                    <!-- Rating -->
+                    <div class="mb-4">
+                        <label class="form-label">Your Rating</label>
+                        <div class="star-rating">
+                            <input type="radio" id="star5" name="rating" value="5" required>
+                            <label for="star5" class="star-filled">5</label>
+                            <input type="radio" id="star4" name="rating" value="4">
+                            <label for="star4" class="star-filled">4</label>
+                            <input type="radio" id="star3" name="rating" value="3">
+                            <label for="star3" class="star-filled">3</label>
+                            <input type="radio" id="star2" name="rating" value="2">
+                            <label for="star2" class="star-filled">2</label>
+                            <input type="radio" id="star1" name="rating" value="1">
+                            <label for="star1" class="star-filled">1</label>
+                        </div>
+                    </div>
+
+                    <!-- Name -->
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Your Name</label>
+                        <input type="text" class="form-control" id="name" required>
+                    </div>
+
+                    <!-- Service Type -->
+                    <div class="mb-3">
+                        <label for="serviceType" class="form-label">Service Received</label>
+                        <select class="form-select" id="serviceType" required>
+                            <option value="">Select a service</option>
+                            <option value="Basic Wash">Basic Wash</option>
+                            <option value="Premium Wash">Premium Wash</option>
+                            <option value="Deluxe Package">Deluxe Package</option>
+                        </select>
+                    </div>
+
+                    <!-- Review Text -->
+                    <div class="mb-3">
+                        <label for="review" class="form-label">Your Review</label>
+                        <textarea class="form-control" id="review" rows="4" required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Submit Review</button>
+                </form>
+            </div>
+
+            <!-- Filter Section -->
+            <div class="filter-container">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <select class="form-select" id="filterRating" onchange="filterReviews()">
+                            <option value="all">All Ratings</option>
+                            <option value="5">5 Stars</option>
+                            <option value="4">4 Stars</option>
+                            <option value="3">3 Stars</option>
+                            <option value="2">2 Stars</option>
+                            <option value="1">1 Star</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 text-md-end mt-3 mt-md-0">
+                        <span class="me-2">Sort by:</span>
+                        <select class="form-select d-inline-block w-auto" id="sortReviews" onchange="sortReviews()">
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                            <option value="highest">Highest Rated</option>
+                            <option value="lowest">Lowest Rated</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reviews List -->
+            <div id="reviewsList">
+                <!-- Sample Review Cards - These would typically be populated dynamically -->
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="user-info">
+                            <img src="/api/placeholder/50/50" alt="User Avatar" class="avatar">
+                            <div>
+                                <h5 class="mb-0">John Doe <span class="verified-badge">Verified Customer</span></h5>
+                                <div class="stars">★★★★★</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        <p>Amazing service! My car looks brand new after the Deluxe Package. The team was professional and thorough. Highly recommend their services to anyone looking for quality car care.</p>
+                    </div>
+                    <div class="review-footer">
+                        <span>Service: Deluxe Package</span>
+                        <span class="float-end">Posted on Feb 15, 2025</span>
+                    </div>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="user-info">
+                            <img src="/api/placeholder/50/50" alt="User Avatar" class="avatar">
+                            <div>
+                                <h5 class="mb-0">Sarah Smith <span class="verified-badge">Verified Customer</span></h5>
+                                <div class="stars">★★★★☆</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        <p>Great basic wash service. Quick and efficient. The only reason for 4 stars is that I had to wait a bit longer than expected, but the results were worth it.</p>
+                    </div>
+                    <div class="review-footer">
+                        <span>Service: Basic Wash</span>
+                        <span class="float-end">Posted on Feb 14, 2025</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center text-white py-4">
+        <div class="container">
+            <p>&copy; 2025 Crystal Cleansed Carwash. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script>
+        // Handle review submission
+        function handleReviewSubmit(event) {
+            event.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                rating: document.querySelector('input[name="rating"]:checked').value,
+                serviceType: document.getElementById('serviceType').value,
+                review: document.getElementById('review').value,
+                date: new Date().toISOString()
+            };
+
+            // In a real application, you would send this data to a server
+            // For now, we'll just add it to the page
+            addReviewToPage(formData);
+            
+            // Reset form
+            event.target.reset();
+            
+            // Show success message
+            alert('Thank you for your review!');
+            
+            return false;
+        }
+
+        // Add new review to page
+        function addReviewToPage(review) {
+            const reviewsList = document.getElementById('reviewsList');
+            const reviewCard = document.createElement('div');
+            reviewCard.className = 'review-card';
+            
+            // Generate stars string
+            const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+            
+            reviewCard.innerHTML = `
+                <div class="review-header">
+                    <div class="user-info">
+                        <img src="/api/placeholder/50/50" alt="User Avatar" class="avatar">
+                        <div>
+                            <h5 class="mb-0">${review.name} <span class="verified-badge">Verified Customer</span></h5>
+                            <div class="stars">${stars}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-content">
+                    <p>${review.review}</p>
+                </div>
+                <div class="review-footer">
+                    <span>Service: ${review.serviceType}</span>
+                    <span class="float-end">Posted on ${new Date().toLocaleDateString()}</span>
+                </div>
+            `;
+            
+            reviewsList.insertBefore(reviewCard, reviewsList.firstChild);
+        }
+
+        // Filter reviews (to be implemented based on backend data)
+        function filterReviews() {
+            // Implementation would go here
+            console.log('Filtering reviews...');
+        }
+
+        // Sort reviews (to be implemented based on backend data)
+        function sortReviews() {
+            // Implementation would go here
+            console.log('Sorting reviews...');
+        }
+    </script>
+</body>
+</html>

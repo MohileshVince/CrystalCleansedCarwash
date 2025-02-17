@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmation - Crystal Cleansed Carwash</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff0000;
+            --secondary-color: #982222;
+        }
+        .confirmation-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 30px;
+            border-radius: 50%;
+            background: #28a745;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .success-icon i {
+            color: white;
+            font-size: 40px;
+        }
+
+        .booking-details {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+
+        .detail-row {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .confirmation-number {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        @media print {
+            .no-print {
+                display: none;
+            }
+            .confirmation-container {
+                box-shadow: none;
+                margin: 0;
+                padding: 20px;
+            }
+        }
+        .btn-primary{
+            background-color: #ff0000;
+            color: white;
+        }
+        footer {
+            background-color: #ff0000;
+            color: white;
+            padding: 20px 0;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light no-print">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Crystal Cleansed Carwash</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="services.html">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="booking.html">Book Now</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="experts.html">Our Experts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="location.html">Location</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="reviews.html">Reviews</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Confirmation Content -->
+    <div class="container">
+        <div class="confirmation-container">
+            <!-- Success Icon -->
+            <div class="success-icon">
+                <i>✓</i>
+            </div>
+
+            <!-- Confirmation Message -->
+            <div class="text-center">
+                <h1 class="mb-3">Booking Confirmed!</h1>
+                <p class="lead">Thank you for choosing Crystal Cleansed Carwash</p>
+            </div>
+
+            <!-- Confirmation Number -->
+            <div class="confirmation-number">
+                <p class="mb-0">Confirmation Number:</p>
+                <h3 id="confirmationNumber" class="mb-0"></h3>
+            </div>
+
+            <!-- Booking Details -->
+            <div class="booking-details">
+                <h3 class="mb-4">Booking Details</h3>
+                <div id="bookingDetailsContainer">
+                    <!-- Details will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Important Information -->
+            <div class="alert alert-info" role="alert">
+                <h4 class="alert-heading">Important Information</h4>
+                <ul class="mb-0">
+                    <li>Please arrive 10 minutes before your appointment</li>
+                    <li>Bring your confirmation number with you</li>
+                    <li>Free cancellation up to 24 hours before the appointment</li>
+                </ul>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons no-print">
+                <button onclick="window.print()" class="btn btn-secondary">
+                    Print Confirmation
+                </button>
+                <a href="index.html" class="btn btn-primary">
+                    Return to Home
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center text-white py-4 mt-5 no-print">
+        <div class="container">
+            <p>&copy; 2025 Crystal Cleansed Carwash. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Generate random confirmation number
+            const confirmationNum = 'CCW' + Math.random().toString(36).substr(2, 9).toUpperCase();
+            document.getElementById('confirmationNumber').textContent = confirmationNum;
+
+            // Retrieve booking data from localStorage
+            const bookingData = JSON.parse(localStorage.getItem('bookingData'));
+            
+            if (bookingData) {
+                // Format the booking details
+                const details = [
+                    {
+                        label: 'Customer Name',
+                        value: `${bookingData.firstName} ${bookingData.lastName}`
+                    },
+                    {
+                        label: 'Service Package',
+                        value: `${bookingData.service.charAt(0).toUpperCase() + bookingData.service.slice(1)} Wash`
+                    },
+                    {
+                        label: 'Appointment Date',
+                        value: new Date(bookingData.date).toLocaleDateString('en-US', {
+                            weekday: 'long',
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        })
+                    },
+                    {
+                        label: 'Appointment Time',
+                        value: bookingData.time
+                    },
+                    {
+                        label: 'Vehicle Details',
+                        value: `${bookingData.year} ${bookingData.make} ${bookingData.model}`
+                    },
+                    {
+                        label: 'Contact Email',
+                        value: bookingData.email
+                    },
+                    {
+                        label: 'Contact Phone',
+                        value: bookingData.phone
+                    }
+                ];
+
+                // Create the details HTML
+                const detailsContainer = document.getElementById('bookingDetailsContainer');
+                details.forEach(detail => {
+                    const detailRow = document.createElement('div');
+                    detailRow.className = 'detail-row';
+                    detailRow.innerHTML = `
+                        <div class="row">
+                            <div class="col-md-4 detail-label">${detail.label}</div>
+                            <div class="col-md-8">${detail.value}</div>
+                        </div>
+                    `;
+                    detailsContainer.appendChild(detailRow);
+                });
+
+                // Add special instructions if any
+                if (bookingData.instructions) {
+                    const instructionsRow = document.createElement('div');
+                    instructionsRow.className = 'detail-row';
+                    instructionsRow.innerHTML = `
+                        <div class="row">
+                            <div class="col-md-4 detail-label">Special Instructions</div>
+                            <div class="col-md-8">${bookingData.instructions}</div>
+                        </div>
+                    `;
+                    detailsContainer.appendChild(instructionsRow);
+                }
+
+                // Clear the localStorage
+                localStorage.removeItem('bookingData');
+            } else {
+                // Handle case where no booking data is found
+                document.querySelector('.confirmation-container').innerHTML = `
+                    <div class="text-center">
+                        <h2 class="mb-4">No Booking Information Found</h2>
+                        <p>Please complete the booking process to see your confirmation.</p>
+                        <a href="booking.html" class="btn btn-primary">Make a Booking</a>
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>
